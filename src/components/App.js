@@ -1,32 +1,18 @@
 import { nanoid } from 'nanoid';
 import React, { Component } from 'react';
-// import { nanoid } from 'nanoid';
 
 export class App extends Component {
   state = {
-    // contacts: [
-    //   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    //   { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    //   { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    //   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    // ],
-    contacts: [],
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
     filter: '',
     name: '',
     number: '',
   };
-
-  // addContacts = ({ id, name, number }) => {
-  //   const contact = {
-  //     id: nanoid(),
-  //     name,
-  //     number,
-  //   };
-
-  //   this.setState(({ contacts }) => ({
-  //     contacts: [contact],
-  //   }));
-  // };
 
   handleNameChange = event => {
     this.setState({ name: event.currentTarget.value });
@@ -36,38 +22,51 @@ export class App extends Component {
     this.setState({ number: event.currentTarget.value });
   };
 
-  // handleChange = event => {
-  //   console.log(event.currentTarget);
-  //   console.dir(event);
-  //   console.dir(event.currentTarget);
-  //   console.log(event.currentTarget.value);
-
-  //   const { name, value } = event.currentTarget;
-
-  //   this.setState({ [name]: value });
-  // };
-
   handleSubmit = event => {
     event.preventDefault();
     console.log(event.currentTarget.name.value);
     const userContact = event.currentTarget.name.value;
+    const userNumber = event.currentTarget.number.value;
     const contact = {
       id: nanoid(),
       name: userContact,
+      number: userNumber,
     };
+    const doubleContact = this.state.contacts
+      .map(contact => contact.name.toLowerCase())
+      .includes(this.state.name.toLowerCase());
+
+    if (doubleContact) {
+      console.log(doubleContact);
+      alert(`${this.state.name} is already in contacts`);
+      this.reset();
+      return;
+    } else
+      this.setState(prevState => ({
+        contacts: [contact, ...prevState.contacts],
+      }));
+    this.reset();
+  };
+
+  changeFilter = event => {
+    this.setState({ filter: event.currentTarget.value });
+  };
+
+  deleteContact = contactId => {
     this.setState(prevState => ({
-      contacts: [contact, ...prevState.contacts],
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
   };
-  // this.props.onSubmit(this.state);
 
-  // reset = () => {
-  //   this.setState({ name: ' ', number: ' ' });
-  // };
-
-  // addContact() {}
+  reset = () => {
+    this.setState({ name: '', number: '' });
+  };
 
   render() {
+    const visibleContacts = this.state.contacts.filter(contact =>
+      contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
+    );
+
     return (
       <div>
         <div>
@@ -101,10 +100,27 @@ export class App extends Component {
         </div>
         <div>
           <h2>Contacts</h2>
+          <label>
+            Find contacts by name
+            <input
+              type="text"
+              value={this.state.filter}
+              onChange={this.changeFilter}
+            ></input>
+          </label>
           <ul>
-            {this.state.contacts.map(contact => (
-              <li id={contact.id}>{contact.name}</li>
-            ))}
+            {visibleContacts.length > 0 &&
+              visibleContacts.map(contact => (
+                <li key={contact.id}>
+                  {contact.name}: {contact.number}
+                  <button
+                    type="button"
+                    onClick={() => this.deleteContact(contact.id)}
+                  >
+                    Delete
+                  </button>
+                </li>
+              ))}
           </ul>
         </div>
       </div>
