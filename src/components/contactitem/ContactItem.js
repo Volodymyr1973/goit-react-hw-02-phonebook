@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import css from './ContactItem.module.css';
 
 export const ContactItem = ({ contacts, filter, onDeleteContact }) => {
@@ -25,4 +25,15 @@ export const ContactItem = ({ contacts, filter, onDeleteContact }) => {
         ))}
     </>
   );
+};
+
+ContactItem.prototype = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      number: PropTypes.string,
+    })
+  ).isRequired,
+  filter: PropTypes.string,
 };

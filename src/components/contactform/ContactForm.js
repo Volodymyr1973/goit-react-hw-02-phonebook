@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import css from './ContactForm.module.css';
 
 export class ContactForm extends Component {
@@ -82,3 +82,8 @@ export class ContactForm extends Component {
     );
   }
 }
+
+ContactForm.propTypes = {
+  name: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
+};
