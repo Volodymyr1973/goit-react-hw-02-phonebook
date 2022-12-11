@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import { nanoid } from 'nanoid';
-import PropTypes from 'prop-types';
-import css from './ContactItem.module.css';
+import React from 'react';
+// import PropTypes from 'prop-types';
+// import css from './ContactItem.module.css';
 
 export const ContactItem = ({ contacts, filter, onDeleteContact }) => {
   const visibleContacts = contacts.filter(contact =>
