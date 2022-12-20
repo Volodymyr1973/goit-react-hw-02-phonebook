@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { nanoid } from 'nanoid';
+import { nanoid } from 'nanoid';
 import css from './ContactList.module.css';
 import { ContactItem } from 'components/contactitem/ContactItem';
 
@@ -13,7 +13,11 @@ export const ContactList = ({ contacts, filter, onDeleteContact }) => {
       <ul className={css.contact__list}>
         {visibleContacts.length > 0 &&
           visibleContacts.map(contact => (
-            <ContactItem contact={contact} onDeleteContact={onDeleteContact} />
+            <ContactItem
+              contact={contact}
+              onDeleteContact={onDeleteContact}
+              key={nanoid()}
+            />
           ))}
       </ul>
     </>
