@@ -9,44 +9,23 @@ export class ContactForm extends Component {
     number: '',
   };
 
-  // handleChange = event => {
-  //   if (event.target.name === 'name') {
-  //     this.setState({ name: event.currentTarget.value });
-  //   } else if (event.target.name === 'number') {
-  //     this.setState({ number: event.currentTarget.value });
-  //   }
-  // };
-
   handleChange = event => {
-    console.dir(event.target);
-    console.log(event.target.name);
-    console.log(event.target.value);
     this.setState({
-      [event.target.name]: [event.target.value],
+      [event.target.name]: [event.target.value].join(),
     });
-
-    // if (event.target.name === 'name') {
-    //   this.setState({ name: event.currentTarget.value });
-    // } else if (event.target.name === 'number') {
-    //   this.setState({ number: event.currentTarget.value });
-    // }
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    const userContact = this.state.name.join();
-    const userNumber = this.state.number.join();
+    const userContact = this.state.name;
+    const userNumber = this.state.number;
     const contact = {
       id: nanoid(),
       name: userContact,
       number: userNumber,
     };
-    // const doubleContact = this.props.contacts
-    //   .map(contact => contact.name.toLowerCase())
-    //   .includes(this.state.name.toLowerCase());
-
     const doubleContact = this.props.contacts.some(
-      ({ name }) => name.toLowerCase() === this.state.name.join().toLowerCase()
+      ({ name }) => name.toLowerCase() === this.state.name.toLowerCase()
     );
 
     if (doubleContact) {
